@@ -36,3 +36,6 @@ test.*
 
 # Vscode
 .vscode
+
+# macOS
+.DS_Store
