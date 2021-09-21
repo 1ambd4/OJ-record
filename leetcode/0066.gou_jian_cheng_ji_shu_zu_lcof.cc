@@ -61,14 +61,14 @@ int main(void)
 {
     vector<int> v1 = {};
     vector<int> r1 = ConstructArray(v1);
-    for (auto &e : r1) {
+    for (auto const &e : r1) {
         cout << e << " ";
     }
     cout << endl;
 
     vector<int> v2 = {1, 2, 3, 4, 5};
     vector<int> r2 = ConstructArray(v2);
-    for (auto &e : r2) {
+    for (auto const &e : r2) {
         cout << e << " ";
     }
     cout << endl;
