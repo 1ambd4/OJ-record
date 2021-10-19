@@ -1,19 +1,12 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
-#include <unordered_set>
+#include <set>
 using namespace std;
 
-// unordered_set底层是 hash table
 bool contain_duplicate(vector<int>& nums) {
-    unordered_set<int> s;
-    for (const int& num : nums) {
-        if (s.find(num) != s.end()) {
-            return true;
-        }
-        s.insert(num);
-    }
-    return false;
+    set<int> s(nums.begin(), nums.end());
+    return s.size() != nums.size();
 }
 
 int main(void) {
