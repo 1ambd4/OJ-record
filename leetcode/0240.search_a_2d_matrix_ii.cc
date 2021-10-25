@@ -6,16 +6,17 @@ using namespace std;
 // 搜索空间优化
 bool search(vector<vector<int>>& matrix, int target)
 {
-    int cow = 0, row = matrix[0].size() - 1;
-    while (cow < matrix.size() && row > 0) {
-        if (matrix[cow][row] < target) {
-            ++cow;
-        } else if (matrix[cow][row] > target) {
-            --row;
-        } else {
+    int row = 0, col = matrix[0].size() - 1;
+    while (row < matrix.size() && col < matrix[0].size()) {
+        if (matrix[row][col] == target) {
             return true;
+        } else if (matrix[row][col] < target) {
+            ++row;
+        } else if (matrix[row][col] > target) {
+            --col;
         }
     }
+
     return false;
 }
 

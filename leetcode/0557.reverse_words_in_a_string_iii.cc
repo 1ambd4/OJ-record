@@ -19,11 +19,11 @@ string reverse_words(string s)
     s.append(" ");
     int n = s.size();
 
-    for (int low = 0, fast = 0; fast < n; ++fast) {
+    for (int slow = 0, fast = 0; fast < n; ++fast) {
         if (s[fast] == ' ') {
-            reverse(s, low, fast-1);
+            reverse(s, slow, fast-1);
             fast++;
-            low = fast;
+            slow = fast;
         }
     }
     return s.substr(0, s.size()-1);

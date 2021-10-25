@@ -5,10 +5,10 @@ using namespace std;
 
 void move_zeroes(vector<int>& nums)
 {
-    int n = nums.size(), low = 0, fast = 0;
+    int n = nums.size(), slow = 0, fast = 0;
     while (fast < n) {
         if (nums[fast]) {
-            swap(nums[low++], nums[fast]);
+            swap(nums[slow++], nums[fast]);
         }
         fast++;
     }

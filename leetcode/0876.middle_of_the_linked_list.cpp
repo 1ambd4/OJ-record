@@ -16,12 +16,12 @@ struct ListNode {
 // 老 408 原题了
 ListNode* middle_node(ListNode *head)
 {
-    ListNode *low = head, *fast = head;
+    ListNode *slow = head, *fast = head;
     while (fast != nullptr && fast != nullptr) {
-        low = low->next;
+        slow = slow->next;
         fast = fast->next->next;
     }
-    return low;
+    return slow;
 }
 
 ListNode* build_list(vector<int> nums)
