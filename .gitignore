@@ -39,3 +39,6 @@ test.*
 
 # macOS
 .DS_Store
+
+# Test data
+*.in
