@@ -13,21 +13,15 @@ struct ListNode {
     ListNode *next;
 };
 
+// 老 408 原题了
 ListNode* middle_node(ListNode *head)
 {
-    int len = 0;
-    ListNode *cur = head;
-    while (cur != nullptr) {
-        ++len;
-        cur = cur->next;
+    ListNode *slow = head, *fast = head;
+    while (fast != nullptr && fast != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
     }
-    
-    len /= 2;
-    while (len--) {
-        head = head->next;
-    }
-
-    return head;    
+    return slow;
 }
 
 ListNode* build_list(vector<int> nums)

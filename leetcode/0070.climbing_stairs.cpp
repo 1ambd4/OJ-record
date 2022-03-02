@@ -1,14 +1,13 @@
 #include <iostream>
-#include <cassert>
+#include <cmath>
 #include <vector>
 using namespace std;
 
-int climb_stairs(int n) {
-    vector<int> dp(n+1, 0);
+int _climb_stairs(int n)
+{
+    vector<int> dp(n+1);
 
-    if (n == 1) return 1;
-
-    dp[0] = 1, dp[1] = 1, dp[2] = 2;
+    dp[0] = 1, dp[1] = 1;
     for (int i = 2; i <= n; ++i) {
         dp[i] = dp[i-1] + dp[i-2];
     }
@@ -16,18 +15,18 @@ int climb_stairs(int n) {
     return dp[n];
 }
 
+int climb_stairs(int n)
+{
+    double sqrt5 = sqrt(5);
+    double fibn = pow((1+sqrt5)/2, n+1) - pow((1-sqrt5)/2, n+2);
+    return (int)round(fibn / sqrt5);
+}
+
 int main(void) {
 
-    int n_case1 = 2;
-    assert(climb_stairs(2) == 2);
-
-    int n_case2 = 3;
-    assert(climb_stairs(3) == 3);
-
-    int n_case3 = 1;
-    assert(climb_stairs(1) == 1);
-
-    cout << "Accepted by the test example!" << endl;
+    cout << climb_stairs(2) << endl;
+    cout << climb_stairs(3) << endl;
+    cout << climb_stairs(1) << endl;
 
     return 0;
 }

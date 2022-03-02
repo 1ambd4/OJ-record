@@ -5,8 +5,10 @@ using namespace std;
 
 bool IsPowerOfThree(int n)
 {
-    // 3是质数，所以找到给定范围内最大的幂数，如果是其因数，则必定也是3的幂数
-    return n > 0 && 1162261467 % n == 0;
+    vector<int> table = {1, 3, 9, 27, 81, 243, 729, 2187, 6561, 19683, 59049, 177147, 531441, 1594323, 4782969, 14348907, 43046721, 129140163, 387420489, 1162261467};
+    auto it = find(table.begin(), table.end(), n);
+
+    return it != table.end() ? true : false;
 }
 
 int main(void)

@@ -3,21 +3,14 @@
 
 using namespace std;
 
-// 快慢指针，i指向0串首，j向后找非零元素，找到就交换数据
 void move_zeroes(vector<int>& nums)
 {
-    int n = nums.size();
-    for (int i = 0; i < n; ++i) {
-        if (nums[i] != 0) {
-            continue;
+    int n = nums.size(), slow = 0, fast = 0;
+    while (fast < n) {
+        if (nums[fast]) {
+            swap(nums[slow++], nums[fast]);
         }
-        // 这时候i指向第一个0
-        for (int j = i; j < n; ++j) {
-            if (nums[j] != 0) {
-                swap(nums[i], nums[j]);
-                break;
-            }
-        }
+        fast++;
     }
 }
 

@@ -5,15 +5,19 @@ using namespace std;
 
 vector<vector<int>> reshaped_matrix(vector<vector<int>>& mat, int r, int c)
 {
-    int m = mat.size(), n = mat[0].size();
-    if (m * n != r * c) {
+    if (mat.size() * mat[0].size() != r * c) {
         return mat;
     }
 
-    // 二维 -> 一维 -> 二维
-    vector<vector<int>> result(r, vector<int>(c));
-    for (int i = 0; i < m * n; ++i) {
-        result[i/c][i%c] = mat[i/n][i%n];
+    vector<vector<int>> result;
+    int t = c;
+    vector<int> temp(c, 0);
+    for (const auto& nums : mat) for (const auto& num : nums) {
+        temp[c-t--] = num;
+        if (t == 0) {
+            t = c;
+            result.push_back(temp);
+        } 
     }
 
     return result;

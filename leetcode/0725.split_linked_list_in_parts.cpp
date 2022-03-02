@@ -18,31 +18,39 @@ public:
 vector<ListNode*> SplitListToParts(ListNode *head, int k)
 {
     int length_of_original_list = 0;
-    vector<ListNode*> lists_after_split(k, nullptr);
-    ListNode *curr = head, *temp = nullptr;
-    while (curr != nullptr) {
+    vector<ListNode*> lists_after_split;
+    ListNode *current = head;
+    while (current != nullptr) {
         length_of_original_list++;
-        curr = curr->next;
+        current = current->next;
     }
 
     // 说了任意两部分的长度差距不超过1，那么只可能存在二值
+    // 要么size/k，要么在其基础上加1，方便其间，将每个链表的长度保存起来
+    
     vector<int> length_of_each_list(k, length_of_original_list / k);
     for (int i = 0; i < length_of_original_list % k; ++i) {
         length_of_each_list[i]++;
     }
 
-    curr = head;
-    for (int i = 0; i < k && curr != nullptr; ++i) {
-
-        lists_after_split[i] = curr;
-
-        for (int j = 1; j < length_of_each_list[i]; ++j) {
-            curr = curr->next;
+    // 不管怎么说，最后需要创建k个链表啊
+    for (int i = 0; i < k; ++i) {
+        if (length_of_each_list[i] == 0) {
+            lists_after_split.push_back(nullptr);
+            continue;
         }
 
-        temp = curr->next;
-        curr->next = nullptr;
-        curr = temp;
+        ListNode *temp_head = new ListNode(head->val, nullptr);
+        current = temp_head;
+        head = head->next;
+        for (int j = 1; j < length_of_each_list[i]; ++j) {
+            ListNode  *temp = new ListNode(head->val, nullptr);
+            head = head->next;
+            current->next = temp;
+            current = temp;
+        }
+        
+        lists_after_split.push_back(temp_head);
     }
 
     return lists_after_split;

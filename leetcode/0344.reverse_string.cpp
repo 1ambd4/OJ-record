@@ -4,21 +4,14 @@
 
 using namespace std;
 
-// 递归虽然在 call function 有额外开销，耐不住简洁易懂啊（不是
-void reverse(vector<char>& s, int left, int right)
-{
-    if (left >= right) {
-        return ;
-    }
-
-    swap(s[left], s[right]);
-
-    reverse(s, left+1, right-1);
-}
-
 void reverse_string(vector<char>& s)
 {
-    reverse(s, 0, s.size() - 1);
+    int n = s.size();
+    for (int i = 0; i < n/2; ++i) {
+        char temp = s[i];
+        s[i] = s[n-1-i];
+        s[n-1-i] = temp;
+    }
 }
 
 int main()

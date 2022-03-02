@@ -1,20 +1,19 @@
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
 
 vector<int> two_sum(vector<int>& nums, int target)
 {
-    vector<int> result;
+    unordered_map<int, int> hashtable;
     for (int i = 0; i < nums.size(); ++i) {
-        for (int j = 0; j < nums.size(); ++j) {
-            if (i == j) continue;
-            if (nums[i] + nums[j] == target) {
-                return { i, j };
-            }
+        unordered_map<int, int>::iterator it = hashtable.find(target - nums[i]);
+        if (it != hashtable.end()) {
+            return { it->second, i };
         }
+        hashtable[nums[i]] = i;
     }
-
     return { };
 }
 

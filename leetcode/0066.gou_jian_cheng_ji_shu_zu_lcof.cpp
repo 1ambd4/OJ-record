@@ -4,21 +4,54 @@
 
 using namespace std;
 
+// bf会t的叭
+// 还不给用除法
+// 分块？
+
+struct Block {
+    int32_t start, end, value;
+};
+
 vector<int> ConstructArray(vector<int> &a)
 {
-    // 本质是定义两个数组，分别维护i左侧、右侧的连乘积
-    if (a.size() == 0)
-        return {};
-
-    vector<int> b(a.size(), 1);
-
-    for (int i = 1; i < b.size(); ++i) {
-        b[i] = b[i-1] * a[i-1];
+    if (a.size() == 0) {
+        return vector<int>();
+    }
+    // 1、分块，每个块sqrt(n)
+    int size_of_block = sqrt(a.size());
+    // 维护每个块的起止元素下标，左开右闭
+    vector<Block> blocks(ceil(a.size() / float(size_of_block)));
+    for (int i = 0; i < blocks.size(); ++i) {
+        blocks[i].start = i * size_of_block;
+        blocks[i].end = (i+1) * size_of_block;
+        blocks[i].value = 1;
+    }
+    blocks[blocks.size()-1].end = a.size();    // 修正不完整块
+    
+    // 2、预处理
+    for (auto &block : blocks) {
+       for (int i = block.start; i < block.end; ++i) {
+           block.value *= a[i];
+       }
     }
 
-    for (int i = b.size() - 2, temp = 1; i >= 0; --i) {
-        temp *= a[i+1];
-        b[i] *= temp;
+    // 3、构建数组b
+    vector<int> b(a.size(), 1);
+    for (int i = 0; i < b.size(); ++i) {
+        for (int j = 0; j < blocks.size(); ++j) {
+            if (i/size_of_block == j) {
+                // 对i所在的块重新计算
+                for (int k = blocks[j].start; k < blocks[j].end; ++k) {
+                    if (i == k) {
+                        continue;
+                    }
+                    b[i] *= a[k];
+                }
+            } else {
+                // 其他的直接查表
+                b[i] *= blocks[j].value;
+            }
+       }
     }
 
     return b;

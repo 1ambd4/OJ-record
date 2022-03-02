@@ -5,25 +5,24 @@
 using namespace std;
 
 int ThirdMaximumNumber(vector<int> &nums) {
+    // 计数？或许可行，但是空间浪费太严重
+    // 扔set里去重排序？那没意思了
+    // 唔，一次遍历就解决了啊，类似快慢指针的思想
+
+    // 测试样例就离谱：[1,2,-2147483648]
+    // int first = INT32_MIN, second = INT32_MIN, third = INT32_MIN;
     int64_t first = INT64_MIN, second = INT64_MIN, third = INT64_MIN;
 
-    // 优化一下，减少if判断次数
-    // 对于找k大数，那么先和第k大的数比较，如果比第k大还小，那么也就不用和其他的比了，结果定然是小的
-    // 而如果先和最大的比较，那么比较完了还要依次比较下去，性能上会差一些
     for (auto const &num : nums) {
-        if (num > third) {
-            if (num < second) {
-                third = num;
-            } else if (num > second) {
-                if (num < first) {
-                    third = second;
-                    second = num;
-                } else if (num > first) {
-                    third = second;
-                    second = first;
-                    first = num;
-                }
-            }
+        if (num > first) {
+            third = second;
+            second = first;
+            first = num;
+        } else if (num > second && num < first) {
+            third = second;
+            second = num;
+        } else if (num > third && num < second) {
+            third = num;
         }
     }
 

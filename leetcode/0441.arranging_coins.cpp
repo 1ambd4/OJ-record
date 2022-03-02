@@ -5,16 +5,7 @@ using namespace std;
 
 int arrange_conins(int n)
 {
-    long l = 1, r = n;
-    while (l < r) {
-        long m = (l + r + 1) >> 1;
-        if (m*(m+1) / 2 <= n) {
-            l = m;
-        } else {
-            r = m - 1;
-        }
-    }
-    return r;
+    return (sqrt((long)8*n+1) - 1) / 2;
 }
 
 int main()

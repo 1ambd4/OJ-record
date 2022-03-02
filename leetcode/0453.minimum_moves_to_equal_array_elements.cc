@@ -5,15 +5,14 @@
 
 using namespace std;
 
+// 整体加等价于例外减
 int minimum_move(vector<int>& nums)
 {
     int result = 0;
-    sort(nums.begin(), nums.end(), std::greater<int>());
-
-    for (int i = 1; i < nums.size(); ++i) {
-        result += i * (nums[i-1] - nums[i]);
+    int minmun_number = *min_element(nums.begin(), nums.end());
+    for (const int& num : nums) {
+        result += num - minmun_number;
     }
-
     return result;
 }
 

@@ -5,11 +5,19 @@ using namespace std;
 
 vector<int> sorted_squares(vector<int>& nums)
 {
-    for (int& num : nums) {
-        num = num * num;
+    int n = nums.size();
+    vector<int> ans(n);
+    for (int i = 0, j = n-1, pos = n-1; i <= j; ) {
+        if (nums[i] * nums[i] > nums[j] * nums[j]) {
+            ans[pos] = nums[i] * nums[i];
+            ++i;
+        } else {
+            ans[pos] = nums[j] * nums[j];
+            --j;
+        }
+        --pos;
     }
-    sort(nums.begin(), nums.end());
-    return nums;
+    return ans;
 }
 
 int main()

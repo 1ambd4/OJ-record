@@ -7,13 +7,15 @@ using namespace std;
 
 ListNode* reverse_list(ListNode *head)
 {
-    if (head == nullptr || head->next == nullptr) {
-        return head;
+    ListNode *dummy = new ListNode(0, nullptr), *cur;
+    while (head != nullptr) {
+        cur = head;
+        head = head->next;
+        cur->next = dummy->next;
+        dummy->next = cur;
     }
-    ListNode *ret = reverse_list(head->next);
-    head->next->next = head;
-    head->next = nullptr;
-    return ret;
+
+    return dummy->next;
 }
 
 int main()

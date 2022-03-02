@@ -1,29 +1,23 @@
 #include <iostream>
-#include <queue>
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 using namespace std;
 
 int first_unique_char(string s)
 {
-    int n = s.size();
-    unordered_map<char, int> position;
-    queue<pair<char, int>> q;
-
-    for (int i = 0; i < n; ++i) {
-        if (!position.count(s[i])) {
-            position[s[i]] = i;
-            q.emplace(s[i], i);
-        } else {
-            position[s[i]] = -1;
-            while (!q.empty() && position[q.front().first] == -1) {
-                q.pop();
-            }
-        }
+    vector<int> cnt(26, 0);
+    for (const char& ch : s) {
+        cnt[ch - 'a']++;
     }
 
-    return q.empty() ? -1 : q.front().second;
+    for (int i = 0; i < s.size(); ++i) {
+        if (cnt[s[i] - 'a'] == 1) {
+            return i;
+        }
+    }
+    
+    return -1;
 }
 
 int main()

@@ -3,31 +3,16 @@
 
 using namespace std;
 
-// 这不就是插入排序么，奇奇怪怪的
+// 正向遍历是插入排序，反向遍历就变成了归并排序
 void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
 {
-    // 正向遍历的坏处就是需要处理nums1为空的情况
-    if (m == 0) {
-        for (int i = 0; i < n; ++i) {
-            nums1[i] = nums2[i];
+    int tail = nums1.size() - 1;
+    --m, --n;
+    while (n >= 0) {
+        while (m >= 0 && nums1[m] > nums2[n]) {
+            swap(nums1[tail--], nums1[m--]);
         }
-    }
-    
-    for (int i = 0, j = 0; i < n; ++i) {
-        for ( ; j < m; ++j) {
-            if (nums2[i] < nums1[j]) {
-                for (int k = m; k > j; --k) {
-                    nums1[k] = nums1[k-1];
-                }
-                nums1[j] = nums2[i];
-                ++m;
-                break;
-            }
-            if (j == m-1) {
-                nums1[m++] = nums2[i];
-                break;
-            }
-        }
+        swap(nums1[tail--], nums2[n--]);
     }
 }
 

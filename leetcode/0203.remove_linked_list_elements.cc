@@ -5,36 +5,16 @@
 
 using namespace std;
 
-ListNode* _remove_elements(ListNode *head, int val)
-{
-    ListNode *dummy = new ListNode(-1, head), *pre = dummy, *cur = head;
-    while (cur != nullptr) {
-        if (cur->val != val) {
-            pre = pre->next;
-        } else {
-            while (cur != nullptr && cur->val == val) {
-                cur = cur->next;
-            }
-            pre->next = cur;
-            pre = cur;
-        }
-        cur = cur != nullptr ? cur->next : cur;
-    }
-    return dummy->next;
-}
-
+// 放回删除一个val后的链表
 ListNode* remove_elements(ListNode *head, int val)
 {
-    ListNode *dummy = new ListNode(-1, head), *cur = dummy;
-    while (cur->next != nullptr) {
-        cur->next->val == val ? cur->next = cur->next->next : cur = cur->next;
-        // if (cur->next->val == val) {
-        //     cur->next = cur->next->next;
-        // } else {
-        //     cur = cur->next;
-        // }
+    if (head == nullptr) {
+        return head;
     }
-    return dummy->next;
+
+    head->next = remove_elements(head->next, val);
+
+    return head->val == val ? head->next : head;
 }
 
 int main()
