@@ -39,6 +39,7 @@ test.*
 
 # macOS
 .DS_Store
+*.o.dSYM/
 
 # Test data
 *.in
