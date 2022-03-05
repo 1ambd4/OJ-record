@@ -1,55 +1,21 @@
-#include <cmath>
 #include <iostream>
 #include <vector>
 
+#include "leetcode.h"
+
 using namespace std;
-
-struct ListNode {
-    ListNode() : val(0), next(nullptr) { }
-    ListNode(int x) : val(x), next(nullptr) { }
-    ListNode(int x, ListNode* next) : val(x), next(next) { }
-
-    int val;
-    ListNode *next;
-};
 
 ListNode* middle_node(ListNode *head)
 {
-    int len = 0;
-    ListNode *cur = head;
-    while (cur != nullptr) {
-        ++len;
-        cur = cur->next;
-    }
-    
-    len /= 2;
-    while (len--) {
-        head = head->next;
+    ListNode *slow = head, *fast = head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
     }
 
-    return head;    
+    return slow;
 }
 
-ListNode* build_list(vector<int> nums)
-{
-    ListNode *head = new ListNode();
-    ListNode *cur = head;
-    for (const int& num : nums) {
-        ListNode *temp = new ListNode(num, nullptr);
-        cur->next = temp;
-        cur = cur->next;
-    }
-    return head;  
-}
-
-void show_list(ListNode *head)
-{
-    while (head != nullptr) {
-        cout << head->val << " ";
-        head = head->next;
-    }
-    cout << endl;
-}
 
 int main()
 {
@@ -58,4 +24,6 @@ int main()
     show_list(head->next);
     ListNode *ans1 = middle_node(head->next);
     show_list(ans1);
+
+    return 0;
 }
