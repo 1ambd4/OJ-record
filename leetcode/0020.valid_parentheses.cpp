@@ -11,16 +11,18 @@ bool is_valid(string s)
         else if (ch == '{') stk.push('}');
         else if (ch == '[') stk.push(']');
         else {
-            if (stk.empty() || stk.top() != ch) {
+            if (stk.empty() || ch != stk.top()) {
                 return false;
             } else {
                 stk.pop();
             }
         }
     }
+
     if (!stk.empty()) {
         return false;
     }
+
     return true;
 }
 
