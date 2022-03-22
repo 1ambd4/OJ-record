@@ -8,16 +8,16 @@ vector<int> daily_temperatures(vector<int> temps)
 {
     vector<int> res(temps.size());
     stack<int> s;
-    
+
     for (int i = temps.size()-1; i >= 0; --i) {
         while (!s.empty() && temps[i] >= temps[s.top()]) {
             s.pop();
         }
         res[i] = s.empty() ? 0 : s.top()-i;
-        s.emplace(i);
+       s.push(i); 
     }
 
-    return  res;
+    return res;
 }
 
 int main()
