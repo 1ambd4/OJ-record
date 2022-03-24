@@ -104,7 +104,7 @@ void traversal(TreeNode *head)
     std::cout << std::endl;
 }
 
-template<typename T>
+template <typename T>
 void print_vector(std::vector<T> vec)
 {
     for (const auto &it : vec) {
@@ -112,4 +112,27 @@ void print_vector(std::vector<T> vec)
     }
     std::cout << std::endl;
 }
+
+template <typename T>
+std::ostream& operator << (std::ostream& os, std::vector<T> v)
+{
+    for (const auto& e : v) {
+        os << e << ' ';
+    }
+    return os;
+}
+
+template <typename T>
+std::ostream& operator << (std::ostream& os, std::vector<std::vector<T>> vs)
+{
+    for (const auto& v : vs) {
+        os << '[';
+        for (const auto& e : v) {
+            os << e << ',';
+        }
+        os << ']';
+    }
+    return os;
+}
+
 #endif  // LEETCODE_H
