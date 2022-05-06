@@ -3,39 +3,36 @@
 
 using namespace std;
 
-void backtrace(TreeNode *root, int targetSum, int &res, bool &found)
+void traverse(TreeNode *root, bool &found, int sum)
 {
-    if (root == nullptr) {
+    if (root == nullptr) return ;
+
+    sum -= root->val;
+    if (root->left == root->right && sum == 0) {
+        found = true;
         return ;
     }
-
-    res += root->val;
-    if (root->left == nullptr && root->right == nullptr) {
-        if (res == targetSum) {
-            found = true;
-        }
-    }
-    backtrace(root->left, targetSum, res, found);
-    backtrace(root->right, targetSum, res, found);
-    res -= root->val;
+    traverse(root->left, found, sum);
+    traverse(root->right, found, sum);
+    sum += root->val;
 }
 
-bool hasPathSum(TreeNode *root, int targetSum)
+bool has_path_sum(TreeNode *root, int target_sum)
 {
     int res = 0;
     bool found = false;
-    backtrace(root, targetSum, res, found);
+    traverse(root, found, target_sum);
     return found;
 }
 
-bool has_path_sum(TreeNode *root, int targetSum) {
+bool _has_path_sum(TreeNode *root, int targetSum) {
     // base case
     // 1、搜到树外面去了
     // 2、搜到叶结点，且正好构成路径（左子树和右子树只有在都为空的情况下才可能相等，学到了）
     if (root == nullptr) {
         return false;
     }
-    if (root->left == root->right && root->val = targetSum) {
+    if (root->left == root->right && root->val == targetSum) {
         return true;
     }
 
@@ -47,6 +44,6 @@ int main()
 {
     vector<int> case1 {5, 4, 8, 11, -1, 13, 4, 7, 2, -1, -1, -1, 1};
     TreeNode *root = build_tree(case1);
-    cout << hasPathSum(root, 22) << endl;
+    cout << has_path_sum(root, 22) << endl;
     return 0;
 }
