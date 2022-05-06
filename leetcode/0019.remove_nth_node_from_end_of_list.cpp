@@ -13,7 +13,7 @@ ListNode* _remove_nth_from_end(ListNode *head, int n)
     while (n--) {
         right = right->next;
     }
-    if (right == nullptr && n == -1) {
+    if (right == nullptr) {
         return head->next;
     }
     while (right != nullptr) {
