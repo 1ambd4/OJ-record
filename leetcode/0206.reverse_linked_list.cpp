@@ -5,7 +5,7 @@
 
 using namespace std;
 
-ListNode* reverse_list(ListNode *head)
+ListNode* _reverse_list(ListNode *head)
 {
     ListNode *dummy = new ListNode(0, nullptr), *cur;
     while (head != nullptr) {
@@ -16,6 +16,18 @@ ListNode* reverse_list(ListNode *head)
     }
 
     return dummy->next;
+}
+
+ListNode* reverse_list(ListNode *head)
+{
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+    ListNode *cur = head;
+    head = reverse_list(head->next);
+    cur->next->next = cur;
+    cur->next = nullptr;
+    return head;
 }
 
 int main()
