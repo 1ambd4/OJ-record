@@ -23,7 +23,7 @@ ListNode* build_list(std::vector<int> nums)
         cur->next = temp;
         cur = cur->next;
     }
-    return head;
+    return head->next;
 }
 
 void show_list(ListNode *head)
@@ -33,6 +33,15 @@ void show_list(ListNode *head)
         head = head->next;
     }
     std::cout  << std::endl;
+}
+
+std::ostream& operator << (std::ostream& os, ListNode *head)
+{
+    while (head != nullptr) {
+        std::cout << head->val << " ";
+        head = head->next;
+    }
+    return os;
 }
 
 struct TreeNode {
