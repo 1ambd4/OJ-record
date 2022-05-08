@@ -5,7 +5,6 @@ using namespace std;
 
 vector<int> two_sum(vector<int>& nums, int target)
 {
-    vector<int> result;
     for (int i = 0; i < nums.size(); ++i) {
         for (int j = 0; j < nums.size(); ++j) {
             if (i == j) continue;
@@ -27,5 +26,6 @@ int main()
     vector<int> case2 { 3, 2, 4 };
     vector<int> rest2 = two_sum(case2, 6);
     cout << rest2[0] << " " << rest2[1] << endl;
+
     return 0;
 }
