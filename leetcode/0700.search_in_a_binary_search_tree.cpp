@@ -9,10 +9,10 @@ TreeNode* search_bst(TreeNode *root, int val)
 {
     if (root == nullptr) return nullptr;
 
-    if (root->val < val) {
-        return search_bst(root->right, val);
-    } else if (root->val > val) {
+    if (val < root->val) {
         return search_bst(root->left, val);
+    } else if (val > root->val) {
+        return search_bst(root->right, val);
     }
 
     return root;
