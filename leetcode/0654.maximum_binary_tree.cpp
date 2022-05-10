@@ -6,12 +6,12 @@
 
 using namespace std;
 
-TreeNode* build(vector<int>& nums, int lo, int hi)
+TreeNode* build(vector<int>& nums, int left, int right)
 {
-    if (lo > hi) return nullptr;
+    if (left > right) return nullptr;
 
-    int maxval = nums[lo], index = lo;
-    for (int i = lo; i <= hi; ++i) {
+    int maxval = nums[left], index = left;
+    for (int i = left; i <= right; ++i) {
         if (nums[i] > maxval) {
             maxval = nums[i];
             index = i;
@@ -19,8 +19,8 @@ TreeNode* build(vector<int>& nums, int lo, int hi)
     }
     
     TreeNode *root = new TreeNode(maxval);
-    root->left = build(nums, lo, index-1);
-    root->right = build(nums, index+1, hi);
+    root->left = build(nums, left, index-1);
+    root->right = build(nums, index+1, right);
 
     return root;
 }
