@@ -5,48 +5,49 @@
 using namespace std;
 
 class Trie {
-public:
-    Trie() : child(26), is_word(false) { }
+    public:
+        Trie() : child(26), is_word(false) { }
 
-    void insert(string word)
-    {
-        Trie *node = this;
-        for (char ch : word) {
-            ch -= 'a';
-            if (node->child[ch] == nullptr) {
-                node->child[ch] = new Trie();
+        void insert(string word)
+        {
+            Trie *cur = this;
+            for (char c : word) {
+                c -= 'a';
+                if (cur->child[c] == nullptr) {
+                    cur->child[c] = new Trie();
+                }
+                cur = cur->child[c];
             }
-            node = node->child[ch];
+            cur->is_word = true;
         }
-        node->is_word = true;
-    }
 
-    bool search(string word)
-    {
-        Trie *result = search_prefix(word);
-        return result != nullptr && result->is_word;
-    }
+        bool search(string word)
+        {
+            Trie *result = search_prefix(word);
+            return result != nullptr && result->is_word;
+        }
 
-    bool start_with(string prefix)
-    {
-        return search_prefix(prefix) != nullptr;
-    }
-private:
-    vector<Trie*> child;
-    bool is_word;
+        bool startsWith(string prefix)
+        {
+            return search_prefix(prefix) != nullptr;
+        }
 
-    Trie* search_prefix(string prefix)
-    {
-        Trie *node = this;
-        for (char ch : prefix) {
-            ch -= 'a';
-            if (node->child[ch] == nullptr) {
-                return nullptr;
+    private:
+        Trie* search_prefix(string prefix)
+        {
+            Trie *cur = this;
+            for (char c : prefix) {
+                c -= 'a';
+                if (cur->child[c] == nullptr) {
+                    return nullptr;
+                }
+                cur = cur->child[c];
             }
-            node = node->child[ch];
+            return cur;
         }
-        return node;
-    }
+
+        vector<Trie*> child;
+        bool is_word;
 };
 
 int main()
