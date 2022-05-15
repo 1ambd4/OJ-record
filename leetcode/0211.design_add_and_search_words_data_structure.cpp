@@ -6,62 +6,58 @@ using namespace std;
 
 class Trie {
 public:
-    Trie() : child(26), is_word_(false) { }
+    Trie() : child(26), is_word(false) { }
 
     void insert(string word)
     {
-        Trie *node = this;
-
-        for (char ch : word) {
-            ch -= 'a';
-            if (node->child[ch] == nullptr) {
-                node->child[ch] = new Trie();
+        Trie *cur = this;
+        for (auto& c : word) {
+            c -= 'a';
+            if (cur->child[c] == nullptr) {
+                cur->child[c] = new Trie();
             }
-            node = node->child[ch];
+            cur = cur->child[c];
         }
-        node->is_word_ = true;
+        cur->is_word = true;
     }
 
-    inline bool is_word() { return is_word_; }
-
     vector<Trie*> child;
-    bool is_word_;
+    bool is_word;
 };
 
 class WordDictionary {
 public:
-    WordDictionary()
-    {
+    WordDictionary() {
         trie = new Trie();
     }
 
-    void add_word(string word)
-    {
+    void add_word(string word) {
         trie->insert(word);
     }
 
-    bool search(string word)
-    {
+    bool search(string word) {
         return dfs(word, trie, 0);
     }
 
-    bool dfs(const string& word, Trie *node, int index)
+private:
+    Trie *trie;
+
+    bool dfs(const string& word, Trie *cur, int index)
     {
         if (index == word.size()) {
-            return node->is_word();
+            return cur->is_word;
         }
 
-        // 通配符的时候搜索全部的26棵子树
-        char ch = word[index];
-        if (ch >= 'a' && ch <= 'z') {
-            Trie *child = node->child[ch-'a'];
-            if (child != nullptr && dfs(word, child, index+1)) {
+        char c = word[index];
+        if (c >= 'a' && c <= 'z') {
+            Trie *child = cur->child[c-'a'];
+            if (child != nullptr && dfs(word, child, index + 1)) {
                 return true;
             }
-        } else if (ch == '.') {
+        } else if (c == '.') {
             for (int i = 0; i < 26; ++i) {
-                Trie *child = node->child[i];
-                if (child != nullptr && dfs(word, child, index+1)) {
+                Trie *child = cur->child[i];
+                if (child != nullptr && dfs(word, child, index + 1)) {
                     return true;
                 }
             }
@@ -69,8 +65,6 @@ public:
 
         return false;
     }
-private:
-    Trie *trie;
 };
 
 int main()
