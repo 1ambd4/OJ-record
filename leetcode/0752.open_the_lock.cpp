@@ -53,7 +53,7 @@ int open_lock(vector<string>& deadends, string target)
     return -1;
 }
 
-int openLock(vector<string>& deadends, string target) {
+int _openLock(vector<string>& deadends, string target) {
     int cnt = 0;
     queue<string> q;
     unordered_map<string, bool> m, d;
@@ -96,14 +96,61 @@ int openLock(vector<string>& deadends, string target) {
     return -1;
 }
 
+int bidirectional_dfs(vector<string>& deadends, string target) {
+    int cnt = 0;
+    unordered_set<string> v(deadends.begin(), deadends.end());
+    unordered_set<string> q1, q2;
+    q1.emplace("0000"), q2.emplace(target);
+
+    auto up = [](string s, int k) -> string {
+        s[k] == '9' ? s[k] = '0' : s[k] += 1;
+        return s;
+    };
+    auto down = [](string s, int k) -> string {
+        s[k] == '0' ? s[k] = '9' : s[k] -= 1;
+        return s;
+    };
+
+    while (!q1.empty() && !q2.empty()) {
+        unordered_set<string> t;
+
+        for (string cur : q1) {
+            if (v.count(cur)) {
+                continue;
+            }
+            if (q2.count(cur)) {
+                return cnt;
+            }
+
+            v.emplace(cur);
+
+            for (int i = 0; i < 4; ++i) {
+                string u = up(cur, i);
+                string d = down(cur, i);
+                if (!v.count(u)) {
+                    t.emplace(u);
+                }
+                if (!v.count(d)) {
+                    t.emplace(d);
+                }
+            }
+        }
+
+        q1 = q2;
+        q2 = t;
+        ++cnt;
+    }
+    return -1;
+}
+
 int main()
 {
     vector<string> deadends1 {"0201", "0101", "0102", "1212", "2002"};
     string target1 = "0202";
-    cout << open_lock(deadends1, target1) << endl;
+    cout << bidirectional_dfs(deadends1, target1) << endl;
 
     vector<string> deadends2 {"8887", "8889", "8878", "8898", "8788", "8988", "7888", "9888"};
     string target2 = "8888";
-    cout << openLock(deadends2, target2) << endl;
+    cout << bidirectional_dfs(deadends2, target2) << endl;
     return 0;
 }
