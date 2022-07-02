@@ -8,8 +8,7 @@ void traverse(vector<vector<int>>& graph, vector<vector<int>>& res,
 {
     path.push_back(s);
 
-    int n = graph.size();
-    if (s == n-1) {
+    if (s == graph.size()-1) {
         res.push_back(path);
         path.pop_back();
         return ;
