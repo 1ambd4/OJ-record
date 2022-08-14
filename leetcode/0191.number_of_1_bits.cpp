@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int _hamming_weight(uint32_t n)
+int hamming_weight_(uint32_t n)
 {
     int count = 0;
     while(n) {
