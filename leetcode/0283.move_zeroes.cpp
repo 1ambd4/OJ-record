@@ -4,7 +4,7 @@
 using namespace std;
 
 // 快慢指针，i指向0串首，j向后找非零元素，找到就交换数据
-void move_zeroes(vector<int>& nums)
+void move_zeroes_(vector<int>& nums)
 {
     int n = nums.size();
     for (int i = 0; i < n; ++i) {
@@ -18,6 +18,36 @@ void move_zeroes(vector<int>& nums)
                 break;
             }
         }
+    }
+}
+
+// 要保持非零数字原顺序啊，看差了
+void move_zeroes__(vector<int>& nums)
+{
+    int n = nums.size();
+    int l = 0, r = n - 1;
+
+    while (l < r) {
+        if (nums[l] == 0) {
+            while (nums[r] == 0) --r;
+            swap(nums[l], nums[r]);
+            ++l, --r;
+        } else {
+            ++l;
+        }
+    }
+}
+
+void move_zeroes(vector<int>& nums)
+{
+    int n = nums.size();
+    int l = 0, r = 0;
+
+    while (r < n) {
+        if (nums[r]) {
+            swap(nums[l++], nums[r]);
+        }
+        ++r;
     }
 }
 
