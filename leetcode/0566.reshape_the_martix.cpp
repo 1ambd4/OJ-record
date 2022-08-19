@@ -1,38 +1,34 @@
 #include <iostream>
 #include <vector>
 
+#include "leetcode.h"
+
 using namespace std;
 
 vector<vector<int>> reshaped_matrix(vector<vector<int>>& mat, int r, int c)
 {
-    if (mat.size() * mat[0].size() != r * c) {
-        return mat;
-    }
+    int n = mat.size(), m = mat[0].size();
+    if (n * m != r * c) return mat;
 
-    vector<vector<int>> result;
+    vector<vector<int>> res;
     int t = c;
     vector<int> temp(c, 0);
     for (const auto& nums : mat) for (const auto& num : nums) {
         temp[c-t--] = num;
-        if (t == 0) {
+        if (!t) {
             t = c;
-            result.push_back(temp);
-        } 
+            res.push_back(temp);
+        }
     }
 
-    return result;
+    return res;
 }
 
 int main()
 {
     vector<vector<int>> case1 { {1, 2}, {3, 4} };
-    cout << endl;
-    vector<vector<int>> rst1 = reshaped_matrix(case1, 1, 4);
-    for (const auto& nums : rst1) {
-        for (const auto& num : nums) {
-            cout << num << " ";
-        }
-        cout << endl;
-    }
+    vector<vector<int>> res1 = reshaped_matrix(case1, 1, 4);
+    cout << res1 << endl;
+
     return 0;
 }
