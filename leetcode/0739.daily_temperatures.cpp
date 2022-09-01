@@ -14,7 +14,7 @@ vector<int> daily_temperatures(vector<int> temps)
             s.pop();
         }
         res[i] = s.empty() ? 0 : s.top()-i;
-       s.push(i); 
+        s.push(i); 
     }
 
     return res;
