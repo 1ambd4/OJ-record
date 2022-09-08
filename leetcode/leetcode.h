@@ -4,6 +4,10 @@
 #include <queue>
 #include <vector>
 
+
+#define LOG(x, ...) \
+    cout << __FUNCTION__ << " " << __LINE__  << ": " << #x << " = " << x << endl;
+
 struct ListNode {
     public:
         ListNode() : val(0), next(nullptr) { }
