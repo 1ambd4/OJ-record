@@ -5,7 +5,45 @@
 
 using namespace std;
 
+// left bound
 int lower_bound(vector<int> &nums, int target)
+{
+    int l = 0, r = nums.size() - 1;
+    while (l < r) {
+        int m = (l + r) >> 1;
+        if (nums[m] >= target) r = m;
+        else l = m + 1;
+    }
+
+    return nums[l] != target ? -1 : l;
+}
+
+// right bound
+int upper_bound(vector<int> &nums, int target)
+{
+    int l = 0, r = nums.size() - 1;
+    while (l < r) {
+        int m = (l + r + 1) >> 1;
+        if (nums[m] <= target) l = m;
+        else r = m - 1;
+    }
+
+    return nums[l] != target ? -1 : l;
+}
+
+
+vector<int> search_range(vector<int> &nums, int target)
+{
+    if (nums.size() == 0) return {-1, -1};
+
+    int left = lower_bound(nums, target);
+    int right = upper_bound(nums, target);
+
+    return {left, right};
+}
+
+
+int _lower_bound(vector<int> &nums, int target)
 {
     int left = 0, right = nums.size() - 1;
     while (left <= right) {
@@ -26,7 +64,7 @@ int lower_bound(vector<int> &nums, int target)
     return left;
 }
 
-int upper_bound(vector<int> &nums, int target)
+int _upper_bound(vector<int> &nums, int target)
 {
     int left = 0, right = nums.size() - 1;
     while (left <= right) {
@@ -47,13 +85,6 @@ int upper_bound(vector<int> &nums, int target)
     return right;
 }
 
-vector<int> search_range(vector<int> &nums, int target)
-{
-    int left = lower_bound(nums, target);
-    int right = upper_bound(nums, target);
-
-    return {left, right};
-}
 
 int main()
 {
@@ -65,5 +96,10 @@ int main()
     vector<int> nums2 {5,7,7,8,8,10};
     vector<int> res2 = search_range(nums2, 6);
     print_vector(res2);
+
+    vector<int> nums3 {};
+    vector<int> res3 = search_range(nums3, 0);
+    print_vector(res3);
+
     return 0;
 }
