@@ -3,7 +3,27 @@
 
 using namespace std;
 
+// left_bound
 int search(vector<int>& nums, int target)
+{
+    if (target < *(nums.begin())) {
+        return 0;
+    } else if (target > *(nums.end()-1)) {
+        return nums.size();
+    }
+
+    int l = 0, r = nums.size() - 1;
+    while(l < r) {
+        int m = (l + r) >> 1;
+        if (nums[m] >= target) r = m;
+        else l = m + 1;
+    }
+
+    return l;
+}
+
+
+int _search(vector<int>& nums, int target)
 {
     if (target < *(nums.begin())) {
         return 0;
@@ -27,6 +47,7 @@ int search(vector<int>& nums, int target)
 
     return left;
 }
+
 
 int main()
 {
