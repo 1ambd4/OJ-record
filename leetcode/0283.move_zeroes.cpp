@@ -1,7 +1,21 @@
 #include <iostream>
 #include <vector>
 
+#include "leetcode.h"
+
 using namespace std;
+
+void move_zeroes(vector<int>& nums)
+{
+    int left = 0, right = 0;
+    while (right < nums.size()) {
+        if (nums[right]) {
+            swap(nums[left++], nums[right]);
+        }
+        ++right;
+    }
+}
+
 
 // 快慢指针，i指向0串首，j向后找非零元素，找到就交换数据
 void move_zeroes_(vector<int>& nums)
@@ -38,7 +52,7 @@ void move_zeroes__(vector<int>& nums)
     }
 }
 
-void move_zeroes(vector<int>& nums)
+void _move_zeroes(vector<int>& nums)
 {
     int n = nums.size();
     int l = 0, r = 0;
@@ -55,17 +69,11 @@ int main()
 {
     vector<int> case1 { 0, 1, 0, 3, 12 };
     move_zeroes(case1);
-    for (const int& num : case1) {
-        cout << num << " ";
-    }
-    cout << endl;
-    
+    print_vector(case1);
+
     vector<int> case2 { 0, 0, 1, 3, 12 };
     move_zeroes(case2);
-    for (const int& num : case2) {
-        cout << num << " ";
-    }
-    cout << endl;
-    
+    print_vector(case2);
+
     return 0;
 }
