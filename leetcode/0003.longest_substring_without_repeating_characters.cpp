@@ -4,7 +4,26 @@
 
 using namespace std;
 
+// 滑动窗口：先扩张右边界，然后收缩左边界
 int length_of_longest_substring(string s)
+{
+    int res = 0, l = 0, r = 0;
+    unordered_map<char, int> w;
+
+    while (r < s.size()) {
+        char c = s[r++];
+        w[c]++;
+        while (w[c] > 1) {
+            char c = s[l++];
+            w[c]--;
+        }
+        res = max(res, r - l);
+    }
+    return res;
+}
+
+
+int _length_of_longest_substring(string s)
 {
     int left = 0, right = 0, res = 0;
     unordered_map<char, int> window;
@@ -33,5 +52,6 @@ int main()
     cout << length_of_longest_substring("abcabcb") << endl;
     cout << length_of_longest_substring("bbbb") << endl;
     cout << length_of_longest_substring("pwwkew") << endl;
+
     return 0;
 }
