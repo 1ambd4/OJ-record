@@ -10,6 +10,38 @@ using namespace std;
 vector<int> find_anagrams(string s, string p)
 {
     vector<int> res;
+    unordered_map<char, int> need, window;
+    int left = 0, right = 0, valid = 0;
+
+    for (const auto& c : p) need[c]++;
+
+    while (right < s.size()) {
+        char c = s[right++];
+        if (need.count(c)) {
+            window[c]++;
+            if (window[c] == need[c]) ++valid;
+        }
+
+        while (valid == need.size()) {
+            if (right - left == p.size()) {
+                res.push_back(left);
+            }
+
+            char c = s[left++];
+            if (need.count(c)) {
+                if (window[c] == need[c]) --valid;
+                window[c]--;
+            }
+        }
+    }
+
+    return res;
+}
+
+
+vector<int> _find_anagrams(string s, string p)
+{
+    vector<int> res;
     unordered_map<char,int> need, window;
     int left = 0, right = 0, valid = 0, len = 0;
 
@@ -32,7 +64,7 @@ vector<int> find_anagrams(string s, string p)
             if (right-left == p.size()) {
                 res.push_back(left);
             }
-            
+
             // 左缩
             char c = s[left++];
             if (need.count(c)) {
@@ -52,8 +84,14 @@ int main()
     string s1 = "cbaebabacd", p1 = "abc";
     vector<int> res1 = find_anagrams(s1, p1);
     print_vector<int>(res1);
+
     string s2 = "abab", p2 = "ab";
     vector<int> res2 = find_anagrams(s2, p2);
     print_vector<int>(res2);
+
+    string s3 = "baa", p3 = "aa";
+    vector<int> res3 = find_anagrams(s3, p3);
+    print_vector<int>(res3);
+
     return 0;
 }
