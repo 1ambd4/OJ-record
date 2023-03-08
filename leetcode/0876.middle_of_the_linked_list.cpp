@@ -12,6 +12,16 @@ ListNode* middle_node(ListNode *head)
         slow = slow->next;
         fast = fast->next->next;
     }
+    return slow;
+}
+
+ListNode* _middle_node(ListNode *head)
+{
+    ListNode *slow = head, *fast = head;
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
 
     return slow;
 }
