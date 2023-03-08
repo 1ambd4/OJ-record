@@ -35,7 +35,8 @@ int main()
     vector<int> nums1 { 1, 2, 4 }, nums2 { 1, 3, 4 };
     ListNode *l1 = build_list(nums1);
     ListNode *l2 = build_list(nums2);
-    ListNode *ans1 = merge_two_lists(l1->next, l2->next);
+    ListNode *ans1 = merge_two_lists(l1, l2);
     show_list(ans1);
+
     return 0;
 }
