@@ -1,17 +1,50 @@
 #include <iostream>
 #include <vector>
 
+#include "leetcode.h"
+
 using namespace std;
 
-struct ListNode {
-    ListNode() : val(0), next(nullptr) { }
-    ListNode(int x) : val(x), next(nullptr) { }
-    ListNode(int x, ListNode *next) : val(x), next(next) { }
-    int val;
-    ListNode *next;
-};
+// struct ListNode {
+//     ListNode() : val(0), next(nullptr) { }
+//     ListNode(int x) : val(x), next(nullptr) { }
+//     ListNode(int x, ListNode *next) : val(x), next(next) { }
+//     int val;
+//     ListNode *next;
+// };
+
 
 ListNode* add_two_numbers(ListNode *l1, ListNode *l2)
+{
+    ListNode *res = new ListNode(-1), *cur = res;
+
+    int sum = 0, carry = 0;
+    while (l1 != nullptr && l2 != nullptr) {
+        sum = l1->val + l2->val + carry;
+        carry = sum / 10;
+        cur->next = new ListNode(sum % 10, nullptr);
+        cur = cur->next;
+        l1 = l1->next, l2 = l2->next;
+    }
+
+    ListNode **left = (l1 != nullptr ? &l1 : &l2);
+    while (*left) {
+        sum = (*left)->val + carry;
+        carry = sum / 10;
+        cur->next = new ListNode(sum % 10, nullptr);
+        cur = cur->next;
+        *left = (*left)->next;
+    }
+
+    // 处理最后的进位，此时一定是l1和l2都为nullptr（那么自然是相等的
+    if (l1 == l2 && carry) {
+        cur->next = new ListNode(carry, nullptr);
+    }
+
+    return res->next;
+}
+
+ListNode* _add_two_numbers(ListNode *l1, ListNode *l2)
 {
     ListNode *result = new ListNode(); // 头结点
     ListNode *cur = result;
@@ -82,7 +115,10 @@ int main()
     ListNode *l2 = build(n2);
     show(l2);
 
-    ListNode *l3 = add_two_numbers(l1, l2);
+    ListNode *l3 = _add_two_numbers(l1, l2);
     show(l3);
+
+    ListNode *l4 = add_two_numbers(l1, l2);
+    show(l4);
     return 0;
 }
