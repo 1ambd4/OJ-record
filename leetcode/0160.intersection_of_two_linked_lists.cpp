@@ -5,7 +5,21 @@
 
 using namespace std;
 
-ListNode* get_intersection_node(ListNode *head_a, ListNode *head_b)
+ListNode* get_intersection_node(ListNode *ha, ListNode *hb)
+{
+    ListNode *la = ha, *lb = hb;
+    while (la != lb) {
+        if (la == nullptr) la = hb;
+        else la = la->next;
+
+        if (lb == nullptr) lb = ha;
+        else lb = lb->next;
+    }
+
+    return la;
+}
+
+ListNode* _get_intersection_node(ListNode *head_a, ListNode *head_b)
 {
     ListNode *la = head_a, *lb = head_b;
     while (la != lb) {
@@ -31,6 +45,6 @@ int main()
     show_list(list1->next);
     show_list(list2->next);
     show_list(res1);
-    if (res1 == nullptr) cout << "fjdsslfj" << endl;
+
     return 0;
 }
