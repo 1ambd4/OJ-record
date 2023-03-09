@@ -4,7 +4,7 @@
 using namespace std;
 
 class MyQueue {
-public: 
+public:
     MyQueue() = default;
 
     void push(int x)
