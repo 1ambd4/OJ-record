@@ -4,8 +4,41 @@
 
 using namespace std;
 
-// 穷举所有可能的子区间，TLE
+// 当i～j是一个满足题意的子数组时： k = ps[i] - ps[j]
+int subarray_sum(vector<int>& nums, int k)
+{
+    unordered_map<int, int> ps;
+    ps[0] = 1;
+
+    int res = 0, sum = 0;
+    for (const auto& num : nums) {
+        sum += num;
+        res += ps[sum-k];
+        ps[sum]++;
+    }
+
+    return res;
+}
+
+
+// 内层O(n)的for循环可以使用哈希表优化掉
 int _subarray_sum(vector<int> &nums, int k)
+{
+    unordered_map<int, int> preSum;
+    preSum[0] = 1;
+
+    int res = 0, sum = 0;
+    for (const auto &num : nums) {
+        sum += num;
+        res += preSum[sum-k];
+        ++preSum[sum];
+    }
+
+    return res;
+}
+
+// 穷举所有可能的子区间，TLE
+int __subarray_sum(vector<int> &nums, int k)
 {
     vector<int> preSum(nums.size()+1, 0);
     preSum[0] = 0;
@@ -20,22 +53,6 @@ int _subarray_sum(vector<int> &nums, int k)
                 res++;
             }
         }
-    }
-
-    return res;
-}
-
-// 内层O(n)的for循环可以使用哈希表优化掉
-int subarray_sum(vector<int> &nums, int k)
-{
-    unordered_map<int, int> preSum;
-    preSum[0] = 1;
-
-    int res = 0, sum = 0;
-    for (const auto &num : nums) {
-        sum += num;
-        res += preSum[sum-k];
-        ++preSum[sum];
     }
 
     return res;
