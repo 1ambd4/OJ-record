@@ -4,12 +4,39 @@
 
 using namespace std;
 
+int min_insertions(string s)
+{
+    // res为需要插入的次数，need为需要的右括号数
+    int res = 0, need = 0;
+
+    for (const auto& c : s) {
+        if (c == '(') {
+            need += 2;
+            // 当遇到左括号时，若右括号数为奇数
+            // 说明前面为匹配，需要插入一个右括号
+            if (need % 2 == 1) {
+                // need++;
+                need--;
+                res++;
+            }
+        } else {
+            need--;
+            if (need == -1) {
+                res++;
+                need = 1;
+            }
+        }
+    }
+
+    return res + need;
+}
+
 // 过不了testcase8
 // int min_insertions(string s)
 // {
 //     stack<char> stk;
 //     int res = 0;
-// 
+//
 //     for (const char& ch : s) {
 //         if (ch == '(') {
 //             if (stk.size() % 2 == 1) {  // 针对类似case6的情况处理
@@ -26,11 +53,11 @@ using namespace std;
 //             }
 //         }
 //     }
-// 
+//
 //     return stk.size() + (res+1)/2 + res%2;
 // }
 
-int min_insertions(string s)
+int _min_insertions(string s)
 {
     // need记录右括号的需求数量
     int res = 0, need = 0;
@@ -71,5 +98,8 @@ int main()
     cout << min_insertions(s7) << endl;
     string s8 = "))(()()))()))))))()())()(())()))))()())(()())))()(";
     cout << min_insertions(s8) << endl;
+    string s9 {"()()()()()("};
+    cout << min_insertions(s9) << endl;
+
     return 0;
 }
