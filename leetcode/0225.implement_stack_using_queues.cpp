@@ -1,12 +1,47 @@
-#include <iostream>                      
+#include <iostream>
 #include <queue>
 
 using namespace std;
 
-
 class MyStack {
 public:
     MyStack() = default;
+
+    void push(int x)
+    {
+        stk.push(x);
+    }
+
+    int top()
+    {
+        return stk.back();
+    }
+
+    int pop()
+    {
+        int len = stk.size(), tmp = 0;
+        while (len-- > 1) {
+            tmp = stk.front();
+            stk.pop();
+            stk.push(tmp);
+        }
+        tmp = stk.front();
+        stk.pop();
+        return tmp;
+    }
+
+    int empty()
+    {
+        return stk.empty();
+    }
+
+private:
+    queue<int> stk;
+};
+
+class _MyStack {
+public:
+    _MyStack() = default;
 
     void push(int x)
     {
