@@ -5,7 +5,34 @@ using namespace std;
 
 class NumMatrix {
 public:
-    NumMatrix(vector<vector<int>> &matrix)
+    NumMatrix(vector<vector<int>>& matrix)
+    {
+        int n = matrix.size(), m = matrix[0].size();
+        if (n == 0) return ;
+
+        ps.resize(n+1, vector<int>(m+1, 0));
+        for (int i = 1; i <= n; ++i) {
+            for (int j = 1; j <= m; ++j) {
+                ps[i][j] = ps[i-1][j] + ps[i][j-1] + matrix[i-1][j-1] - ps[i-1][j-1];
+            }
+        }
+    }
+
+    int sum_region(int r1, int c1, int r2, int c2)
+    {
+        return ps[r2+1][c2+1] - ps[r1][c2+1] - ps[r2+1][c1] + ps[r1][c1];
+    }
+
+private:
+    vector<vector<int>> ps;
+};
+
+
+
+// 二维看作n个一维，性能并不算好
+class _NumMatrix {
+public:
+    _NumMatrix(vector<vector<int>> &matrix)
     {
         if (matrix.size() == 0) return ;
         // preSum.resize(matrix.size());
@@ -15,7 +42,7 @@ public:
             preSum[i][0] = 0;
             for (int j = 1; j < preSum[i].size(); ++j) {
                 preSum[i][j] = preSum[i][j-1] + matrix[i][j-1];
-            } 
+            }
         }
     }
 
@@ -60,5 +87,6 @@ int main()
     cout << case2->sum_region(0, 0, 0, 0) << ", "
         << case2->sum_region(0, 0, 0, 1) << ", "
         << case2->sum_region(0, 1, 0, 1) << endl;
+
     return 0;
 }
