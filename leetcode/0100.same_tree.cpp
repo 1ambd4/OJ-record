@@ -1,10 +1,12 @@
 #include <iostream>
+
 #include "leetcode.h"
 
 using namespace std;
 
-bool isSameTree(TreeNode *p, TreeNode *q)
+bool is_same_tree(TreeNode *p, TreeNode *q)
 {
+    // if (p == q) {
     if (p == nullptr && q == nullptr) {
         return true;
     } else if (p == nullptr || q == nullptr) {
@@ -12,7 +14,7 @@ bool isSameTree(TreeNode *p, TreeNode *q)
     } else if (p->val != q->val) {
         return false;
     }
-    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    return is_same_tree(p->left, q->left) && is_same_tree(p->right, q->right);
 }
 
 int main()
