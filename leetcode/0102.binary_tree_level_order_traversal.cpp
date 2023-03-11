@@ -7,6 +7,30 @@ using namespace std;
 
 vector<vector<int>> level_order(TreeNode* root)
 {
+    vector<vector<int>> res;
+
+    if (root == nullptr) return res;
+
+    queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        res.push_back(vector<int>());
+        int n = q.size();
+        for (int i = 0; i < n; ++i) {
+            TreeNode *cur = q.front();
+            q.pop();
+            if (cur->left != nullptr) q.push(cur->left);
+            if (cur->right != nullptr) q.push(cur->right);
+
+            res.back().push_back(cur->val);
+        }
+    }
+
+    return res;
+}
+
+vector<vector<int>> _level_order(TreeNode* root)
+{
     vector<vector<int>> ret;
 
     if (root == nullptr) return ret;
@@ -43,5 +67,6 @@ int main()
     traversal(tree1);
     vector<vector<int>> res1 = level_order(tree1);
     cout << res1 << endl;
+
     return 0;
 }
