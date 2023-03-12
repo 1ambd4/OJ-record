@@ -5,7 +5,33 @@
 
 using namespace std;
 
-TreeNode* build(vector<int>& inorder, int ilo, int ihi,
+TreeNode* build(vector<int>& inorder, int ilo, int ihi, vector<int>& postorder, int plo, int phi)
+{
+    if (ilo > ihi) return nullptr;
+
+    int rootval = postorder[phi], index = 0;
+    for (int i = ilo; i <= ihi; ++i) {
+        if (inorder[i] == rootval) {
+            index = i;
+            break;
+        }
+    }
+
+    int leftsize = index - ilo;
+    TreeNode *root = new TreeNode(rootval);
+    root->left = build(inorder, ilo, index-1, postorder, plo, plo+leftsize-1);
+    root->right = build(inorder, index+1, ihi, postorder, plo+leftsize, phi-1);
+
+    return root;
+}
+
+TreeNode* build(vector<int>& inorder, vector<int>& postorder)
+{
+    return build(inorder, 0, inorder.size()-1, postorder, 0, postorder.size()-1);
+}
+
+
+TreeNode* _build(vector<int>& inorder, int ilo, int ihi,
         vector<int>& postorder, int plo, int phi)
 {
     if (ilo > ihi) return nullptr;
@@ -27,7 +53,7 @@ TreeNode* build(vector<int>& inorder, int ilo, int ihi,
     return root;
 }
 
-TreeNode* build(vector<int>& inorder, vector<int>& postorder)
+TreeNode* _build(vector<int>& inorder, vector<int>& postorder)
 {
     return build(inorder, 0, inorder.size()-1,
             postorder, 0, postorder.size()-1);
