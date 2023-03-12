@@ -7,6 +7,35 @@ using namespace std;
 
 vector<vector<int>> level_order_bottom(TreeNode *root)
 {
+    vector<vector<int>> res;
+    if (root == nullptr) return res;
+
+    queue<TreeNode*> q;
+    q.push(root);
+    TreeNode *cur = nullptr;
+
+    while (!q.empty()) {
+        int n = q.size();
+        vector<int> tmp;
+
+        for (int i = 0; i < n; ++i) {
+            cur = q.front();
+            q.pop();
+
+            tmp.push_back(cur->val);
+
+            if (cur->left != nullptr) q.push(cur->left);
+            if (cur->right != nullptr) q.push(cur->right);
+        }
+
+        res.insert(res.begin(), tmp);
+    }
+
+    return res;
+}
+
+vector<vector<int>> _level_order_bottom(TreeNode *root)
+{
     vector<vector<int>> ret;
 
     if (root == nullptr) return ret;
