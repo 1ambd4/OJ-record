@@ -69,7 +69,25 @@ void traversal(Node *root)
     cout << endl;
 }
 
-void connect(Node *node1, Node *node2)
+void connect(Node *left, Node *right)
+{
+    if (left == nullptr || right == nullptr) return ;
+    left->next = right;
+
+    connect(left->left, left->right);
+    connect(right->left, right->right);
+    connect(left->right, right->left);
+}
+
+Node* connect(Node *root)
+{
+    if (root == nullptr) return nullptr;
+    connect(root->left, root->right);
+    return root;
+}
+
+
+void _connect(Node *node1, Node *node2)
 {
     if (node1 == nullptr || node2 == nullptr) return ;
 
@@ -80,7 +98,7 @@ void connect(Node *node1, Node *node2)
     connect(node1->right, node2->left);
 }
 
-Node* connect(Node *root)
+Node* _connect(Node *root)
 {
     if (root == nullptr) return nullptr;
     connect(root->left, root->right);
@@ -93,5 +111,6 @@ int main()
     Node *tree1 = build_tree(vec1);
     Node *res1 = connect(tree1);
     traversal(res1);
+
     return 0;
 }
