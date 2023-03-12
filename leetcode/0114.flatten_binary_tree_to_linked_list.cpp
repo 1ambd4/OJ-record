@@ -5,7 +5,31 @@
 
 using namespace std;
 
+// 递归最重要的就是相信递归
+// 不去深究递归过程的整个细节，而是着眼于当前
+// 剩下的怎么做，相信递归就好了呀
 void flatten(TreeNode *root)
+{
+    if (root == nullptr) return ;
+
+    flatten(root->left);
+    flatten(root->right);
+
+    TreeNode *left = root->left;
+    TreeNode *right = root->right;
+
+    root->left = nullptr;
+    root->right = left;
+
+    TreeNode *cur = root;
+    while (cur->right != nullptr) {
+        cur = cur->right;
+    }
+    cur->right = right;
+}
+
+
+void _flatten(TreeNode *root)
 {
     if (root == nullptr) return ;
 
@@ -24,6 +48,7 @@ void flatten(TreeNode *root)
     }
     cur->right = right;
 }
+
 
 int main()
 {
