@@ -4,7 +4,26 @@
 
 using namespace std;
 
-TreeNode* invert_tree(TreeNode* root)
+TreeNode* invert_tree(TreeNode *root)
+{
+    if (root == nullptr) return nullptr;
+
+    // 对当前情况的处理放到前序或者后序位置均可
+    // 形式上相近，思想上却相去甚远
+    // 前序位置是自顶向下的
+    // 而后序位置是自底向上的
+
+    // swap(root->left, root->right);
+
+    invert_tree(root->left);
+    invert_tree(root->right);
+
+    swap(root->left, root->right);
+
+    return root;
+}
+
+TreeNode* _invert_tree(TreeNode* root)
 {
     // base case
     if (root == nullptr) {
