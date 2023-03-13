@@ -8,7 +8,40 @@
 
 using namespace std;
 
-vector<int> _find_mode(TreeNode *root)
+
+// 中序遍历就是有序数组，那么变成如何在有序数组中找到众数
+vector<int> find_mode(TreeNode* root)
+{
+    vector<int> res;
+    int maxcnt = 0, pre = root->val, cnt = 0;
+
+    auto traverse = [&maxcnt, &res](auto&& self, TreeNode *cur, int& pre, int& cnt) -> void {
+        if (cur == nullptr) return ;
+
+        self(self, cur->left, pre, cnt);
+        if (cur->val == pre) {
+            ++cnt;
+        } else {
+            cnt = 1;
+            pre = cur->val;
+        }
+
+        if (cnt == maxcnt) {
+            res.push_back(cur->val);
+        } else if (cnt > maxcnt) {
+            maxcnt = cnt;
+            res.clear();
+            res.push_back(cur->val);
+        }
+        self(self, cur->right, pre, cnt);
+    };
+
+    traverse(traverse, root, pre, cnt);
+
+    return res;
+}
+
+vector<int> __find_mode(TreeNode *root)
 {
     vector<int> res;
     unordered_map<int, int> m;
@@ -57,7 +90,7 @@ void dfs(TreeNode *cur, int& pre, vector<int>& res, int& max_cnt, int& cnt)
     dfs(cur->right, pre, res, max_cnt, cnt);
 }
 
-vector<int> find_mode(TreeNode *root)
+vector<int> _find_mode(TreeNode *root)
 {
     vector<int> res;
     int pre = INT_MIN, max_cnt = 0, cnt = 0;
