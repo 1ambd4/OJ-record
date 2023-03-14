@@ -9,6 +9,39 @@ TreeNode* search_bst(TreeNode *root, int val)
 {
     if (root == nullptr) return nullptr;
 
+    TreeNode *cur = root;
+    while (cur != nullptr) {
+        if (cur->val < val) {
+            cur = cur->right;
+        } else if (cur->val > val) {
+            cur = cur->left;
+        } else {
+            break;
+        }
+    }
+
+    if (cur == nullptr) return nullptr;
+
+    return cur->val == val ? cur : nullptr;
+}
+
+TreeNode* _search_bst(TreeNode *root, int val)
+{
+    if (root == nullptr) return nullptr;
+
+    if (val < root->val) {
+        return search_bst(root->left, val);
+    } else if (val > root->val) {
+        return search_bst(root->right, val);
+    }
+
+    return root;
+}
+
+TreeNode* __search_bst(TreeNode *root, int val)
+{
+    if (root == nullptr) return nullptr;
+
     if (val < root->val) {
         return search_bst(root->left, val);
     } else if (val > root->val) {
