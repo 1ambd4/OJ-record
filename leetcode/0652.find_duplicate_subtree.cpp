@@ -8,24 +8,49 @@
 
 using namespace std;
 
+vector<TreeNode*> find_duplicate_subtree(TreeNode *root)
+{
+    vector<TreeNode*> res;
+    if (root == nullptr) return res;
+
+    unordered_map<string, int> m;
+    auto traverse = [&res, &m](auto&& self, TreeNode *root) -> string {
+        if (root == nullptr) return "#";
+
+        string left = self(self, root->left);
+        string right = self(self, root->right);
+        string tree = left + "," + right + "," + to_string(root->val);
+
+        if (++m[tree] == 2) {
+            res.push_back(root);
+        }
+
+        return tree;
+    };
+
+    traverse(traverse, root);
+
+    return res;
+}
+
 // TLE了，我不理解，不卡dfs，卡bfs？
 // string serialize(TreeNode *root)
 // {
 //     if (root == nullptr) return "#";
-// 
+//
 //     string left = serialize(root->left);
 //     string right = serialize(root->right);
-// 
+//
 //     return left + "," + right + "," + to_string(root->val);
 // }
-// 
+//
 // // 任意方式遍历二叉树的同时进行序列化后添加进map
 // // 因而若有序列化后结果相同的，判定为重复子树
 // vector<TreeNode*> find_duplicate_subtree(TreeNode *root)
 // {
 //     vector<TreeNode*> res;
 //     if (root == nullptr) return res;
-// 
+//
 //     unordered_map<string, int> m;
 //     TreeNode *cur = nullptr;
 //     queue<TreeNode*> q;
@@ -45,7 +70,7 @@ using namespace std;
 //             q.push(cur->right);
 //         }
 //     }
-// 
+//
 //     return res;
 // }
 
@@ -66,7 +91,7 @@ string serialize(TreeNode *root, vector<TreeNode*>& res,
     return tree;
 }
 
-vector<TreeNode*> find_duplicate_subtree(TreeNode *root)
+vector<TreeNode*> _find_duplicate_subtree(TreeNode *root)
 {
     vector<TreeNode*> res;
     if (root == nullptr) return res;
