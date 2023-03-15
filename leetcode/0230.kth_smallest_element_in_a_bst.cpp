@@ -5,6 +5,23 @@
 
 using namespace std;
 
+int kth_smallest(TreeNode *root, int k)
+{
+    int res = 0, cur = 0;
+    auto traverse = [&res, &k](auto&& self, TreeNode *root, int& cur) {
+        if (root == nullptr) return ;
+
+        self(self, root->left, cur);
+        ++cur;
+        if (cur == k) res = root->val;
+        self(self, root->right, cur);
+    };
+
+    traverse(traverse, root, cur);
+
+    return res;
+}
+
 void inorder(TreeNode *root, int& k, int& r, int &s)
 {
     if (root == nullptr) return;
@@ -16,7 +33,7 @@ void inorder(TreeNode *root, int& k, int& r, int &s)
     inorder(root->right, k, r, s);
 }
 
-int kth_smallest(TreeNode *root, int k)
+int _kth_smallest(TreeNode *root, int k)
 {
     int r = 0, s = 0;
     inorder(root, k, r, s);
