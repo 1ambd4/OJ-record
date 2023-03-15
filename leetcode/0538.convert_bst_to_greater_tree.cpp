@@ -5,6 +5,25 @@
 
 using namespace std;
 
+TreeNode* convert_bst(TreeNode *root)
+{
+    int sum = 0;
+
+    auto traverse = [&sum](auto&& self, TreeNode *root) {
+        if (root == nullptr) return ;
+
+        // 注意这里是先遍历右子树
+        self(self, root->right);
+        sum += root->val;
+        root->val = sum;
+        self(self, root->left);
+    };
+
+    traverse(traverse, root);
+
+    return root;
+}
+
 void inorder(TreeNode *root, int& sum)
 {
     if (root == nullptr) return ;
@@ -14,7 +33,7 @@ void inorder(TreeNode *root, int& sum)
     inorder(root->left, sum);
 }
 
-TreeNode* convert_bst(TreeNode *root)
+TreeNode* _convert_bst(TreeNode *root)
 {
     int sum = 0;
     inorder(root, sum);
