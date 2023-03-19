@@ -4,6 +4,8 @@
 #include <limits>
 #include <queue>
 
+#include "leetcode.h"
+
 using namespace std;
 
 int network_delay_time(vector<vector<int>>& times, int n, int k)
@@ -20,18 +22,18 @@ int network_delay_time(vector<vector<int>>& times, int n, int k)
         return graph[i];
     };
 
+    // emm，这里似乎cmp咋写都无所谓
+    // 当然小根堆有利于后面剪枝优化就是了
     auto cmp = [](pii& a, pii& b) {
-        return a.second > b.second;
+        return a.second < b.second;
     };
 
     priority_queue<pii, vector<pii>, decltype(cmp)> q(cmp);
-    q.push(pii(k,0));
+    q.push(pii(k,0));       // 节点k距离节点k的最小距离为0
     dis[k] = 0;
 
     while (!q.empty()) {
         auto [cx, cw] = q.top(); q.pop();
-
-        if (cw > dis[cx]) continue;
 
         for (const auto& [nx, nw] : adj(cx)) {
             int dist = dis[cx] + nw;
@@ -81,6 +83,7 @@ int _network_delay_time(vector<vector<int>>& times, int n, int k)
     while (!q.empty()) {
         pii cur = q.top(); q.pop();
 
+        // 我写的这是个啥啊，永远不会执行啊
         if (cur.second > distances[cur.first]) {
             continue;
         }
