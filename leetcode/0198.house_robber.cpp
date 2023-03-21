@@ -3,7 +3,22 @@
 
 using namespace std;
 
-int rob_(vector<int>& nums)
+int rob(vector<int>& nums)
+{
+    int n = nums.size();
+    if (n == 1) return nums[0];
+
+    vector<int> dp(n, -1);
+    dp[0] = nums[0], dp[1] = max(nums[0], nums[1]);
+    for (int i = 2; i < n; ++i) {
+        dp[i] = max(dp[i-1], dp[i-2] + nums[i]);
+    }
+
+    return dp[n-1]
+}
+
+// 显然f[i][0]和f[i][1]可以优化的
+int _rob(vector<int>& nums)
 {
     int n = nums.size();
 
@@ -21,8 +36,7 @@ int rob_(vector<int>& nums)
 
 
 // dp[i]: 到第i号房间为止，可偷得的最高金额
-
-int rob(vector<int>& nums)
+int __rob(vector<int>& nums)
 {
     int n = nums.size();
 
