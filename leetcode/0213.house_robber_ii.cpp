@@ -4,8 +4,34 @@
 
 using namespace std;
 
-// split the ring into two parts
+// 环状的话，直接算两遍
+// 一次[0...n-1]，一次[1...n]
+// 结果取较大值
 int rob(vector<int>& nums)
+{
+    int n = nums.size(), res = -1;
+    if (n == 1) return nums[0];
+    if (n == 2) return max(nums[0], nums[1]);
+
+    vector<int> dp(n, -1);
+    dp[0] = nums[0], dp[1] = max(nums[0], nums[1]);
+    for (int i = 2; i < n - 1; ++i) {
+        dp[i] = max(dp[i-1], dp[i-2] + nums[i]);
+    }
+    res = max(res, dp[n-2]);
+
+    dp[0] = -1, dp[1] = nums[1], dp[2] = max(nums[1], nums[2]);
+    for (int i = 3; i < n; ++i) {
+        dp[i] = max(dp[i-1], dp[i-2] + nums[i]);
+    }
+    res = max(res, dp[n-1]);
+
+    return res;
+}
+
+
+// split the ring into two parts
+int _rob(vector<int>& nums)
 {
     using PII = pair<int, int>;
     int n = nums.size(), res = -1;
@@ -46,6 +72,12 @@ int main()
 
     vector<int> nums3 { 1, 2, 3 };
     cout << rob(nums3) << endl;
+
+    vector<int> nums4 {0,0};
+    cout << rob(nums4) << endl;
+
+    vector<int> nums5 {1,2};
+    cout << rob(nums5) << endl;
+
     return 0;
 }
-
