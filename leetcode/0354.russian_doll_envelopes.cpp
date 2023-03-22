@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int max_envelopes(vector<vector<int>>& envelopes)
+int _max_envelopes(vector<vector<int>>& envelopes)
 {
     auto cmp = [](vector<int>& a, vector<int>& b) {
         return a[0] != b[0] ? a[0] < b[0] : a[1] > b[1];
@@ -34,6 +34,31 @@ int max_envelopes(vector<vector<int>>& envelopes)
         }
         return piles;
     }();
+
+    return res;
+}
+
+// 定义dp[i]为以i为结尾的最长递增子序列长度
+// O(n^2)的dp会TLE, (85/87)
+int _max_envelopes(vector<vector<int>>& envelopes)
+{
+    int n = envelopes.size(), res = 0;
+    vector<int> dp(n, 1);
+
+    sort(envelopes.begin(), envelopes.end(), [](vector<int>& a, vector<int>& b){
+            return a[0] != b[0] ? a[0] < b[0] : a[1] > b[1];
+        });
+
+    // cout << envelopes << endl;
+    dp[0] = 1;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < i; ++j) {
+            if (envelopes[i][1] > envelopes[j][1]) {
+                dp[i] = max(dp[i], dp[j] + 1);
+            }
+        }
+        res = max(res, dp[i]);
+    }
 
     return res;
 }
