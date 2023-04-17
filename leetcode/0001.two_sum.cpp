@@ -7,6 +7,7 @@
 
 using namespace std;
 
+// 最妙的还是双指针了
 vector<int> two_sum(vector<int>& nums, int target)
 {
     int n = nums.size();
@@ -21,9 +22,10 @@ vector<int> two_sum(vector<int>& nums, int target)
 
     int l = 0, r = n-1;
     while (l < r) {
-        if (inums[l][1] + inums[r][1] == target) {
+        int cur = inums[l][1] + inums[r][1];
+        if (cur == target) {
             return {inums[l][0], inums[r][0]};
-        } else if (inums[l][1] + inums[r][1] > target) {
+        } else if (cur > target) {
             --r;
         } else {
             ++l;
@@ -33,32 +35,36 @@ vector<int> two_sum(vector<int>& nums, int target)
     return { };
 }
 
+
 vector<int> _two_sum(vector<int>& nums, int target)
 {
+    using pii = pair<int, int>;
     int n = nums.size();
-    vector<vector<int>> inums;
-    for (int i = 0; i < n; ++i) {
-        inums.push_back({i, nums[i]});
-    }
+    vector<pii> inums;
 
-    sort(inums.begin(), inums.end(), [](vector<int>& a, vector<int>& b){
-            return a[1] < b[1];
+    for (int i = 0; i < n; ++i) inums.push_back({i, nums[i]});
+    sort(inums.begin(), inums.end(), [](pii& a, pii& b){
+        return a.second < b.second;
     });
 
-    // 二分最右
     for (int i = 0; i < n; ++i) {
-        int l = i, r = n-1;
-        int res = target - inums[i][1];
-        while ( l < r) {
-            int m = l + r + 1 >> 1;
-            if (inums[m][1] <= res) l = m;
-            else r = m - 1;
+        int res = target - inums[i].second;
+        int l = i + 1, r = n-1;
+        // 这里二分的时候注意一下
+        // 如果二分找右边界，以防出现数字相同，返回结果的时候索引也相同的情况
+        // l必须从i+1开始，因为一个数字是不许出现两次的
+        // 但如果二分找左边界，那也不行啊，数据造得有点弱，233
+        while (l < r) {
+            int m = l + r >> 1;
+            if (inums[m].second >= res) r = m;
+            else l = m + 1;
         }
-        if (inums[l][1] == res) return {inums[i][0], inums[l][0]};
+        if (inums[l].second == res) return {inums[i].first, inums[l].first};
     }
 
-    return { };
+    return {};
 }
+
 
 vector<int> __two_sum(vector<int>& nums, int target)
 {
@@ -75,6 +81,7 @@ vector<int> __two_sum(vector<int>& nums, int target)
     return { };
 }
 
+
 vector<int> ___two_sum(vector<int>& nums, int target)
 {
     for (int i = 0; i < nums.size(); ++i) {
@@ -87,6 +94,7 @@ vector<int> ___two_sum(vector<int>& nums, int target)
 
     return { };
 }
+
 
 int main()
 {
