@@ -8,24 +8,38 @@ using namespace std;
 
 void reverse_print(ListNode *head, vector<int> &res);
 
-vector<int> reverse_print(ListNode *head)
+std::vector<int> reverse_print(ListNode *head)
 {
-    vector<int> res;
+    std::vector<int> res;
 
-    reverse_print(head, res);
+    auto traverse = [&res](auto&& self, ListNode *cur) -> void {
+        if (cur == nullptr) return ;
+
+        self(self, cur->next);
+        res.push_back(cur->val);
+    };
 
     return res;
 }
 
-void reverse_print(ListNode *head, vector<int> &res)
-{
-    if (head == nullptr) {
-        return ;
-    }
-
-    reverse_print(head->next, res);
-    res.push_back(head->val);
-}
+// vector<int> reverse_print(ListNode *head)
+// {
+//     vector<int> res;
+//
+//     reverse_print(head, res);
+//
+//     return res;
+// }
+//
+// void reverse_print(ListNode *head, vector<int> &res)
+// {
+//     if (head == nullptr) {
+//         return ;
+//     }
+//
+//     reverse_print(head->next, res);
+//     res.push_back(head->val);
+// }
 
 int main()
 {
