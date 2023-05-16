@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <string_view>
 
 using namespace std;
 
@@ -8,10 +9,10 @@ class Trie {
 public:
     Trie() : child(26), is_word(false) { }
 
-    void insert(string word)
+    void insert(string_view word)
     {
         Trie *cur = this;
-        for (auto& c : word) {
+        for (auto c : word) {
             c -= 'a';
             if (cur->child[c] == nullptr) {
                 cur->child[c] = new Trie();
@@ -31,18 +32,18 @@ public:
         trie = new Trie();
     }
 
-    void add_word(string word) {
+    void add_word(string_view word) {
         trie->insert(word);
     }
 
-    bool search(string word) {
+    bool search(string_view word) {
         return dfs(word, trie, 0);
     }
 
 private:
     Trie *trie;
 
-    bool dfs(const string& word, Trie *cur, int index)
+    bool dfs(string_view word, Trie *cur, int index)
     {
         if (index == word.size()) {
             return cur->is_word;
@@ -51,14 +52,24 @@ private:
         char c = word[index];
         if (c >= 'a' && c <= 'z') {
             Trie *child = cur->child[c-'a'];
-            if (child != nullptr && dfs(word, child, index + 1)) {
-                return true;
+            // if (child != nullptr && dfs(word, child, index + 1)) {
+            //     return true;
+            // }
+            if (child != nullptr) {
+                ++index;
+                if (dfs(word, child, index)) return true;
+                --index;
             }
         } else if (c == '.') {
             for (int i = 0; i < 26; ++i) {
                 Trie *child = cur->child[i];
-                if (child != nullptr && dfs(word, child, index + 1)) {
-                    return true;
+                // if (child != nullptr && dfs(word, child, index + 1)) {
+                //     return true;
+                // }
+                if (child != nullptr) {
+                    ++index;
+                    if (dfs(word, child, index)) return true;
+                    --index;
                 }
             }
         }
