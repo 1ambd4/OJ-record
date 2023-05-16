@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <string_view>
 
 using namespace std;
 
@@ -8,8 +9,7 @@ class Trie {
     public:
         Trie() : child(26), is_word(false) { }
 
-        void insert(string word)
-        {
+        void insert(std::string_view word) {
             Trie *cur = this;
             for (char c : word) {
                 c -= 'a';
@@ -21,20 +21,17 @@ class Trie {
             cur->is_word = true;
         }
 
-        bool search(string word)
-        {
+        bool search(std::string_view word) {
             Trie *result = search_prefix(word);
             return result != nullptr && result->is_word;
         }
 
-        bool startsWith(string prefix)
-        {
+        bool startsWith(std::string_view prefix) {
             return search_prefix(prefix) != nullptr;
         }
 
     private:
-        Trie* search_prefix(string prefix)
-        {
+        Trie* search_prefix(std::string_view prefix) {
             Trie *cur = this;
             for (char c : prefix) {
                 c -= 'a';
@@ -46,7 +43,7 @@ class Trie {
             return cur;
         }
 
-        vector<Trie*> child;
+        std::vector<Trie*> child;
         bool is_word;
 };
 
